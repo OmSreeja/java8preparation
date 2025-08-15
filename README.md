@@ -33,10 +33,15 @@ static methods
 methods from Objectclass (liketoString(), equals()`)
 
 **Built-in Functional Interfaces in Java 8**
+
 Interface	Method	Description
+
 Predicate<T>	test(T t)	Returns boolean
+
 Function<T,R>	apply(T t)	Returns result of R
+
 Consumer<T>	accept(T t)	Consumes, returns void
+
 Supplier<T>	get()	Supplies a value
 
 **Difference between lambda and anonymous inner class?**
@@ -47,16 +52,23 @@ but you never change its value after assigning it once.
 In other words, it acts like a final variable, even if you didn’t write final
 Lambda expressions (and anonymous inner classes) can only use local variables from the enclosing method if they are final or effectively final.
 This is because Java captures the variable's value, not its reference, to ensure thread safety and avoid unexpected behavior.
+
 public void test() {
+
     String greeting = "Hello"; // effectively final
+	
     Runnable r = () -> System.out.println(greeting); // ✅ OK
+	
     r.run();
 }
 Here, greeting is not declared final, but we never change it, so Java treats it as effectively final.
 
 **Fix with Wrapper**
+
 public class Test {
+
     public void sum(List<Integer> nums) {
+	
         final int[] total = {0};
 
         nums.forEach(n -> total[0] += n);
@@ -70,12 +82,19 @@ Why?
 total is a final reference to an array. Its content can be modified, which is a workaround
 
 **AtomicInteger Example**
+
 public class Test {
+
     public void countEven(List<Integer> nums) {
+	
         AtomicInteger count = new AtomicInteger(0);
+		
         nums.forEach(n -> {
+		
             if (n % 2 == 0) count.incrementAndGet();
+			
         });
+		
         System.out.println("Even count: " + count.get());
     }
 }
@@ -87,55 +106,84 @@ AtomicInteger is mutable and used to safely modify values inside lambdas (also t
 
 **Consumer**<T> – "Consumes but doesn't return"
  A printer — it takes data, prints it, returns nothing.
+ 
 Consumer<String> printer = message -> System.out.println("Printing: " + message);
+
 printer.accept("Hello World");
+
 Method: void accept(T t)
 
 **Predicate**<T> – "Tests a condition, returns boolean"
+
 A filter gate — only lets certain things pass.
+
 Predicate<Integer> isEven = num -> num % 2 == 0;
+
 System.out.println(isEven.test(4)); // true
+
 Method: boolean test(T t)
 
 **Function**<T, R> – "Takes input, returns transformed output"
+
  A vending machine — input a number, get an item.
+ 
 Function<String, Integer> lengthFunc = str -> str.length();
+
 System.out.println(lengthFunc.apply("Sreeja")); // 6
+
 Method: R apply(T t)
+
 **Supplier**<T> – "Gives data, takes nothing"
+
  A gift box — no input, but gives you something.
+ 
 Supplier<Double> randomGenerator = () -> Math.random();
+
 System.out.println(randomGenerator.get());
+
 Method: T get()
 
 **list.stream()?**
 You're converting a collection (like List) into a Stream, which is like a data pipeline.
 
 **.map()** – Transform each item (uses Function<T, R>)
+
  Changing every lowercase name to uppercase.
+ 
 names.stream()
      .map(str -> str.toUpperCase())  // 👈 convert to uppercase
      .forEach(System.out::println);
 					
 **.filter()** – Keep only items that match a condition (uses Predicate<T>)
+
 Only keep names starting with "S".
+
 names.stream()
      .filter(name -> name.startsWith("S"))  // 👈 check condition
      .forEach(System.out::println);
+	 
 ** .forEach() **– Do something with each item (uses Consumer<T>)
+
 Doing a side task like printing/logging.
+
 names.forEach(name -> System.out.println(name));
 
 **Longest length**
+
  List<String> names = List.of("Sreeja", "Arjun", "Sara", "John");
+ 
 Optional<String> longestName = names.stream() .max((name1, name2) -> Integer.compare(name1.length(), name2.length()));
+
 longestName.ifPresent(System.out::println);
 
 **Shorter using Comparator.comparingInt():**
+
 import java.util.Comparator;
+
 String longest = names.stream()
     .max(Comparator.comparingInt(String::length))
     .orElse("No name");
+	
     System.out.println(longest);
 
  **What is Stream API?**
@@ -151,54 +199,80 @@ Collect
 Same thing happens in Java with Stream pipelines!
 
 **Filter names starting with "S"**
+
 List<String> names = List.of("Sreeja", "Anil", "Sara");
+
 names.stream()
      .filter(name -> name.startsWith("S"))  // Predicate
      .forEach(System.out::println);
 
 **Collect to a List**
+
 List<String> result = names.stream()
     .filter(name -> name.length() > 4)
     .collect(Collectors.toList());
+	
 System.out.println(result);
 
 **What is a Method Reference?**
+
 Method reference is a shorter way of writing a lambda expression that calls an existing method.
+
 Instead of writing:
+
 x -> something(x)
+
 You can write:
+
 ClassName::something
 
 **Types of Method References**
+
 Syntax	Used For	Example
+
 ClassName::staticMethod	Static methods	Math::abs
+
 objectRef::instanceMethod	Instance method of a particular object	System.out::println
+
 ClassName::instanceMethod	Instance method of any object of a class	String::toLowerCase
+
 ClassName::new	Constructor reference	ArrayList::new
 
 **Static Method Reference**
+
 ➡ClassName::staticMethod
+
 Function<Integer, Integer> absFunc = Math::abs;
+
 System.out.println(absFunc.apply(-5))
 
 **Instance Method of Specific Object**
+
 objectRef::instanceMethod
+
 List<String> list = List.of("A", "B", "C");
+
 list.forEach(System.out::println);
 
 **Instance Method of Arbitrary Object**
+
 ClassName::instanceMethod
+
 List<String> names = List.of("Sreeja", "Arjun");
 names.stream()
      .map(String::toUpperCase)  // same as: name -> name.toUpperCase()
      .forEach(System.out::println);
 
 **Constructor Reference**
+
 ClassName::new
+
 Supplier<List<String>> listSupplier = ArrayList::new;
+
 List<String> myList = listSupplier.get();
 
 ** What is Optional in Java?**
+
 Optional<T> is a container object introduced in Java 8, which may or may not contain a non-null value.
 It helps you write safer code by avoiding NullPointerException (NPE).
 
@@ -206,3 +280,74 @@ It helps you write safer code by avoiding NullPointerException (NPE).
 Optional is like a sealed gift box:
 You don't know if there's a gift inside (value) or not.
 You must open it carefully, not assume it's always full.
+
+ **How to Create an Optional?**
+Optional<String> empty = Optional.empty();         // No value
+
+Optional<String> name  = Optional.of("Sreeja");    // Value present
+
+Optional<String> maybe = Optional.ofNullable(null); // Might be null
+
+**Using ifPresent()**
+Optional<String> name = Optional.of("Sreeja");
+
+name.ifPresent(n -> System.out.println(n.toUpperCase()));
+**2. Using orElse()**
+Optional<String> name = Optional.ofNullable(null);
+
+System.out.println(name.orElse("Guest"));  // Output: Guest
+**3. Using map()**
+Optional<String> name = Optional.of("sreeja");
+
+Optional<String> upper = name.map(String::toUpperCase);
+
+System.out.println(upper.get());  // Output: SREEJA
+** 4. Using filter()**
+
+Optional<String> name = Optional.of("Sreeja");
+
+name.filter(n -> n.startsWith("S"))
+    .ifPresent(System.out::println);  // Output: Sreeja
+
+**1. What Are Terminal Operations?**
+In Stream API, operations are of two types:
+
+Type	Examples	Behavior
+
+Intermediate	map(), filter(), sorted()	Returns a new stream, does not execute
+
+Terminal	collect(), forEach(), count()	Triggers execution of stream pipeline
+
+**What Is Collectors?**
+
+Collectors is a utility class that provides ready-made collectors to convert a stream into:
+
+List
+
+Set
+
+Map
+
+String (joined)
+
+Count, average, groupings
+
+Commonly Used Collectors:
+
+Collector	Use Case	Example
+
+Collectors.toList()	Convert stream to list	.collect(Collectors.toList())
+
+Collectors.toSet()	Convert to set (no duplicates)	.collect(Collectors.toSet())
+
+Collectors.joining()	Join strings	.collect(Collectors.joining(", "))
+
+Collectors.counting()	Count elements	.collect(Collectors.counting())
+
+Collectors.averagingInt()	Average of int values	.collect(Collectors.averagingInt(...))
+
+Collectors.groupingBy()	Group by field or logic	.collect(Collectors.groupingBy(...))
+
+Collectors.partitioningBy()	True/false split	.collect(Collectors.partitioningBy(...))
+
+
