@@ -126,4 +126,9 @@ names.stream()
 Doing a side task like printing/logging.
 names.forEach(name -> System.out.println(name));
 
+**Longest length**
+ List<String> names = List.of("Sreeja", "Arjun", "Sara", "John");
+Optional<String> longestName = names.stream() .max((name1, name2) -> Integer.compare(name1.length(), name2.length()));
+longestName.ifPresent(System.out::println);
+
 
