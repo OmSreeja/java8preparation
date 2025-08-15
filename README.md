@@ -350,4 +350,105 @@ Collectors.groupingBy()	Group by field or logic	.collect(Collectors.groupingBy(.
 
 Collectors.partitioningBy()	True/false split	.collect(Collectors.partitioningBy(...))
 
+ **What is a Parallel Stream?**
+A parallel stream is a feature in Java 8 that allows you to process data using multiple threads, automatically.
+Internally uses Java’s Fork/Join framework to split the work and combine the result.
+
+List<String> names = List.of("Sreeja", "Arjun", "Sara", "John", "Kiran");
+
+names.parallelStream()  // 👈 instead of .stream()
+     .map(String::toUpperCase)
+     .forEach(System.out::println);
+
+  **Behind the Scenes**
+  
+The stream is divided into chunks.
+
+Each chunk is processed by a different thread.
+
+All results are merged back automatically.
+
+**When to Use Parallel Stream?**
+Yes:
+Heavy data processing
+CPU-intensive operations
+Independent tasks
+
+ No:
+When order matters
+Small datasets
+When using non-thread-safe code
+
+**What is the difference between .map() and .flatMap()?**
+.map()
+Transforms each element using a function.
+The result is one output per input.
+If each input returns a List, you get a Stream of Lists.
+List<String> words = List.of("java", "spring");
+
+List<List<String>> mapped = words.stream()
+    .map(word -> List.of(word.split("")))
+    .collect(Collectors.toList());
+
+System.out.println(mapped);
+Output:
+
+[[j, a, v, a], [s, p, r, i, n, g]]
+Here, you get a List<List<String>> → stream inside stream.
+
+✅ **.flatMap()**
+Flattens multiple streams into a single stream.
+
+Best used when your .map() produces nested structures (like List of List, or Stream of Stream).
+List<String> words = List.of("java", "spring");
+
+List<String> flatMapped = words.stream()
+    .flatMap(word -> Arrays.stream(word.split("")))
+    .collect(Collectors.toList());
+
+System.out.println(flatMapped);
+🔸 Output:
+[j, a, v, a, s, p, r, i, n, g]
+
+What is reduce()?
+reduce() is a terminal operation in Java Stream API that:
+
+Combines all elements in the stream into a single result
+(by repeatedly applying a binary operation).
+Think: ✨ Reduce the stream to one value
+
+**Sum of Numbers**
+
+List<Integer> nums = List.of(1, 2, 3, 4, 5);
+
+int sum = nums.stream()
+              .reduce(0, (a, b) -> a + b);  // Identity = 0
+
+System.out.println(sum); // Output: 15
+
+**Group names by starting letter**
+List<String> names = List.of("Sreeja", "Sara", "John", "Arjun");
+
+Map<Character, List<String>> grouped = names.stream()
+    .collect(Collectors.groupingBy(name -> name.charAt(0)));
+
+System.out.println(grouped);
+
+**Date & Time API**
+**Why was it introduced?**
+
+Before Java 8:
+Dates used java.util.Date and Calendar → ❌ confusing, mutable, and error-prone
+Java 8 introduced the new java.time package:
+
+✔ Immutable
+✔ Thread-safe
+✔ Inspired by Joda-Time
+✔ Much easier to use
+
+
+
+
+
+
 
