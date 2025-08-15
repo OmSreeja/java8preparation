@@ -9,7 +9,7 @@ Less boilerplate code
 Improved readability
 Enables functional programming
 Cleaner use with Streams, Collections, Threading
- **What is a Functional Interface?**
+**What is a Functional Interface?**
 A functional interface is simply an interface that has only one abstract method.
 This is important because Lambda expressions can only be used with functional interfaces.
 ** Why only one abstract method?**
