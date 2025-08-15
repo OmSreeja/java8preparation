@@ -131,4 +131,9 @@ names.forEach(name -> System.out.println(name));
 Optional<String> longestName = names.stream() .max((name1, name2) -> Integer.compare(name1.length(), name2.length()));
 longestName.ifPresent(System.out::println);
 
-
+**Shorter using Comparator.comparingInt():**
+import java.util.Comparator;
+String longest = names.stream()
+    .max(Comparator.comparingInt(String::length))
+    .orElse("No name");
+    System.out.println(longest);
