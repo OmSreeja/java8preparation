@@ -4,11 +4,13 @@
  It’s a concise replacement for creating an anonymous inner class.
  Runnable r = () -> System.out.println("Running");
 Comparator<String> c = (a, b) -> a.compareTo(b);
+
 **Benefits:**
 Less boilerplate code
 Improved readability
 Enables functional programming
 Cleaner use with Streams, Collections, Threading
+
 **What is a Functional Interface?**
 A functional interface is simply an interface that has only one abstract method.
 This is important because Lambda expressions can only be used with functional interfaces.
@@ -22,19 +24,23 @@ interface MyPrinter {
 This interface has one abstract method print(String) So you can write a lambda for it:
 MyPrinter p = msg -> System.out.println("Message: " + msg);
 p.print("Hello!");
+
 **Rule of Functional Interface:**
 Must have only one abstract method
 Can have:
 default methods
 static methods
 methods from Objectclass (liketoString(), equals()`)
+
 **Built-in Functional Interfaces in Java 8**
 Interface	Method	Description
 Predicate<T>	test(T t)	Returns boolean
 Function<T,R>	apply(T t)	Returns result of R
 Consumer<T>	accept(T t)	Consumes, returns void
 Supplier<T>	get()	Supplies a value
+
 **Difference between lambda and anonymous inner class?**
+
 **What is "Effectively Final"?**
 A variable is effectively final if: It is not explicitly declared as final,
 but you never change its value after assigning it once.
@@ -47,6 +53,7 @@ public void test() {
     r.run();
 }
 Here, greeting is not declared final, but we never change it, so Java treats it as effectively final.
+
 **Fix with Wrapper**
 public class Test {
     public void sum(List<Integer> nums) {
@@ -58,8 +65,10 @@ public class Test {
     }
 }
 Will this compile and run? Answer: Yes
+
 Why?
 total is a final reference to an array. Its content can be modified, which is a workaround
+
 **AtomicInteger Example**
 public class Test {
     public void countEven(List<Integer> nums) {
@@ -70,19 +79,24 @@ public class Test {
         System.out.println("Even count: " + count.get());
     }
 }
+
 Will this compile and print even count? Answer: Yes
+
 Why?
 AtomicInteger is mutable and used to safely modify values inside lambdas (also thread-safe).
+
 **Consumer**<T> – "Consumes but doesn't return"
  A printer — it takes data, prints it, returns nothing.
 Consumer<String> printer = message -> System.out.println("Printing: " + message);
 printer.accept("Hello World");
 Method: void accept(T t)
+
 **Predicate**<T> – "Tests a condition, returns boolean"
 A filter gate — only lets certain things pass.
 Predicate<Integer> isEven = num -> num % 2 == 0;
 System.out.println(isEven.test(4)); // true
 Method: boolean test(T t)
+
 **Function**<T, R> – "Takes input, returns transformed output"
  A vending machine — input a number, get an item.
 Function<String, Integer> lengthFunc = str -> str.length();
@@ -93,13 +107,16 @@ Method: R apply(T t)
 Supplier<Double> randomGenerator = () -> Math.random();
 System.out.println(randomGenerator.get());
 Method: T get()
+
 **list.stream()?**
 You're converting a collection (like List) into a Stream, which is like a data pipeline.
+
 **.map()** – Transform each item (uses Function<T, R>)
  Changing every lowercase name to uppercase.
 names.stream()
      .map(str -> str.toUpperCase())  // 👈 convert to uppercase
      .forEach(System.out::println);
+					
 **.filter()** – Keep only items that match a condition (uses Predicate<T>)
 Only keep names starting with "S".
 names.stream()
