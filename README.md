@@ -137,3 +137,72 @@ String longest = names.stream()
     .max(Comparator.comparingInt(String::length))
     .orElse("No name");
     System.out.println(longest);
+
+ **What is Stream API?**
+The Stream API in Java 8 is a declarative way (what to do, not how) to process collections of data — like filtering, mapping, sorting, counting, etc.
+Old way (imperative): loop with for, if, etc.
+New way (declarative): use stream().filter().map().collect()
+Imagine a factory conveyor belt:
+Items go through a pipeline of steps like:
+Filter
+Transform
+Sort
+Collect
+Same thing happens in Java with Stream pipelines!
+
+**Filter names starting with "S"**
+List<String> names = List.of("Sreeja", "Anil", "Sara");
+names.stream()
+     .filter(name -> name.startsWith("S"))  // Predicate
+     .forEach(System.out::println);
+
+**Collect to a List**
+List<String> result = names.stream()
+    .filter(name -> name.length() > 4)
+    .collect(Collectors.toList());
+System.out.println(result);
+
+**What is a Method Reference?**
+Method reference is a shorter way of writing a lambda expression that calls an existing method.
+Instead of writing:
+x -> something(x)
+You can write:
+ClassName::something
+
+**Types of Method References**
+Syntax	Used For	Example
+ClassName::staticMethod	Static methods	Math::abs
+objectRef::instanceMethod	Instance method of a particular object	System.out::println
+ClassName::instanceMethod	Instance method of any object of a class	String::toLowerCase
+ClassName::new	Constructor reference	ArrayList::new
+
+**Static Method Reference**
+➡ClassName::staticMethod
+Function<Integer, Integer> absFunc = Math::abs;
+System.out.println(absFunc.apply(-5))
+
+**Instance Method of Specific Object**
+objectRef::instanceMethod
+List<String> list = List.of("A", "B", "C");
+list.forEach(System.out::println);
+
+**Instance Method of Arbitrary Object**
+ClassName::instanceMethod
+List<String> names = List.of("Sreeja", "Arjun");
+names.stream()
+     .map(String::toUpperCase)  // same as: name -> name.toUpperCase()
+     .forEach(System.out::println);
+
+**Constructor Reference**
+ClassName::new
+Supplier<List<String>> listSupplier = ArrayList::new;
+List<String> myList = listSupplier.get();
+
+** What is Optional in Java?**
+Optional<T> is a container object introduced in Java 8, which may or may not contain a non-null value.
+It helps you write safer code by avoiding NullPointerException (NPE).
+
+**Real-Life Analogy:**
+Optional is like a sealed gift box:
+You don't know if there's a gift inside (value) or not.
+You must open it carefully, not assume it's always full.
