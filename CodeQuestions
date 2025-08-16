@@ -156,5 +156,81 @@ System.out.println("Odd: " + count.get(false));
 19. Concatenate all strings in a list
     String result = words.stream().reduce("", (a, b) -> a + b);
 System.out.println(result);  // HelloSreejaJava8
-20. 
+  or
+  String joined = String.join("", words);  // simpler
+
+20. Group a list of strings by length
+    List<String> names = List.of("Sreeja", "Arjun", "Sai", "Mouni");
+    Map<Integer, List<String>> byLength = names.stream()
+    .collect(Collectors.groupingBy(String::length));
+    byLength.forEach((len, list) -> System.out.println(len + " -> " + list));
+
+21. Group names by starting character
+    Map<Character, List<String>> byFirstChar = names.stream()
+    .collect(Collectors.groupingBy(name -> name.charAt(0)));
+    byFirstChar.forEach((ch, list) -> System.out.println(ch + " -> " + list));
+22. Count number of names for each starting character
+    Map<Character, Long> countByChar = names.stream()
+    .collect(Collectors.groupingBy(name -> name.charAt(0), Collectors.counting()));
+   countByChar.forEach((ch, count) -> System.out.println(ch + " -> " + count));
+23. Group employees by department
+    Map<String, List<Employee>> byDept = employees.stream()
+    .collect(Collectors.groupingBy(Employee::getDept));
+    byDept.forEach((dept, list) -> {
+    System.out.println(dept + " -> " + list);});
+24. Get average salary by department
+    Map<String, Double> avgSalaryByDept = employees.stream()
+    .collect(Collectors.groupingBy(
+        Employee::getDept,
+        Collectors.averagingDouble(Employee::getSalary)
+    ));
+   avgSalaryByDept.forEach((dept, avg) -> System.out.println(dept + " -> " + avg));
+25. Find first element starting with "A" and print it (or "Not found")
+    Optional<String> name = names.stream()
+    .filter(n -> n.startsWith("A"))
+    .findFirst();  // ✅ get the first match
+    name.ifPresentOrElse(
+    System.out::println,
+    () -> System.out.println("Not found"));
+26. Convert a string to uppercase only if present
+    Optional<String> name = Optional.of("sreeja");
+    name.map(String::toUpperCase)
+    .ifPresent(System.out::println);  // Prints SREEJA if present
+27. Flatten a list of lists
+    List<List<Integer>> nums = List.of(
+    List.of(1, 2),
+    List.of(3, 4),
+    List.of(5, 6));
+    nums.stream()
+    .flatMap(list -> list.stream())  // flatten inner lists
+    .forEach(System.out::println);
+28. Split a sentence into words, flatten, and count total words
+    List<String> sentences = List.of(
+    "Java is awesome",
+    "Streams are powerful");
+    long wordCount = sentences.stream()
+    .flatMap(sentence -> Arrays.stream(sentence.split(" ")))  // Stream<String>
+    .count();
+    System.out.println("Total words: " + wordCount);
+29. Convert a list of strings into a list of characters
+   List<String> words = List.of("Sreeja", "Java");
+   List<Character> chars = words.stream()
+    .flatMap(word -> word.chars().mapToObj(c -> (char) c))  // chars() returns IntStream
+    .collect(Collectors.toList());
+    System.out.println(chars);
+30. Convert a list of integers into their squares
+    List<Integer> nums = List.of(1, 2, 3, 4, 5);
+    List<Integer> squares = nums.stream()
+    .map(n -> n * n)
+    .collect(Collectors.toList());
+    System.out.println(squares);  // [1, 4, 9, 16, 25]
+31. find second highest number
+
+
+
+
+
+
+
+
    
