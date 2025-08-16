@@ -446,6 +446,20 @@ Java 8 introduced the new java.time package:
 ✔ Inspired by Joda-Time
 ✔ Much easier to use
 
+Class	       Purpose
+
+LocalDate	Represents a date (no time)
+
+LocalTime	Represents a time (no date)
+
+LocalDateTime	Combines date + time
+
+DateTimeFormatter	For formatting and parsing
+
+Period	Difference between dates (years, months, days)
+
+Duration	Difference between times (hours, mins)
+
 
 
 
