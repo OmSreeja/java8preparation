@@ -225,6 +225,120 @@ System.out.println(result);  // HelloSreejaJava8
     .collect(Collectors.toList());
     System.out.println(squares);  // [1, 4, 9, 16, 25]
 31. find second highest number
+    Approach 1: Using distinct, sorted, limit, skip
+    List<Integer> nums = List.of(4, 8, 1, 6, 8, 9, 3);
+   Optional<Integer> secondHighest = nums.stream()
+    .distinct()                           // Remove duplicates
+    .sorted(Comparator.reverseOrder())    // Sort descending
+    .skip(1)                              // Skip highest
+    .findFirst();                         // Take second
+   secondHighest.ifPresentOrElse(
+    n -> System.out.println("Second highest: " + n),
+    () -> System.out.println("Not enough elements"));
+    Without sorting (for big data efficiency)
+   int max = nums.stream().max(Integer::compare).orElse(Integer.MIN_VALUE);
+   Optional<Integer> secondHighest = nums.stream()
+    .filter(n -> n < max)
+    .max(Integer::compare);
+   secondHighest.ifPresent(System.out::println);
+32. Reverse sort and skip top 2, print remaining
+    List<Integer> result = nums.stream()
+    .distinct()
+    .sorted(Comparator.reverseOrder()) // Reverse sort
+    .skip(2)                            // ✅ Skip top 2
+    .collect(Collectors.toList());
+   System.out.println(result);
+33. Given a Student class (name, age, marks),
+   get: all students with marks > 80
+   top 3 scorers 
+   average marks
+   list of names sorted by marks 
+   student with the longest name 
+   map of student name to marks
+  public class Main {
+    public static void main(String[] args) {
+
+        List<Student> students = List.of(
+            new Student("Sreeja", 21, 91),
+            new Student("Arjun", 22, 85),
+            new Student("Mounika", 20, 78),
+            new Student("Sai", 23, 88),
+            new Student("John", 24, 65)
+        );
+
+        // 1. All students with marks > 80
+        List<Student> highScorers = students.stream()
+            .filter(s -> s.getMarks() > 80)
+            .collect(Collectors.toList());
+        System.out.println("Students with marks > 80: " + highScorers);
+
+        // 2. Top 3 scorers
+        List<Student> top3 = students.stream()
+            .sorted(Comparator.comparingDouble(Student::getMarks).reversed())
+            .limit(3)
+            .collect(Collectors.toList());
+        System.out.println("Top 3 scorers: " + top3);
+
+        // 3. Average marks
+        double average = students.stream()
+            .collect(Collectors.averagingDouble(Student::getMarks));
+        System.out.println("Average marks: " + average);
+
+        // 4. List of names sorted by marks
+        List<String> namesSortedByMarks = students.stream()
+            .sorted(Comparator.comparingDouble(Student::getMarks))
+            .map(Student::getName)
+            .collect(Collectors.toList());
+        System.out.println("Names sorted by marks: " + namesSortedByMarks);
+
+        // 5. Student with the longest name
+        Optional<Student> longestNameStudent = students.stream()
+            .max(Comparator.comparingInt(s -> s.getName().length()));
+        longestNameStudent.ifPresent(s ->
+            System.out.println("Student with the longest name: " + s.getName())
+        );
+
+        // 6. Map of student name to marks
+        Map<String, Double> nameToMarks = students.stream()
+            .collect(Collectors.toMap(Student::getName, Student::getMarks));
+        System.out.println("Name to marks map: " + nameToMarks);
+    }}
+34 Character of all the String present in a List of Strings and return the result in form of a stream.
+    List<Character> firstChars = names.stream()
+    .map(name -> name.charAt(0))               // 🟢 map to first char of each name
+    .collect(Collectors.toList());
+    System.out.println(firstChars);
+35. Count occurrence of a given character in a string using Stream API in Java
+    String s = "sreeja";
+    char target = 's';
+   long count = s.chars()  // creates an IntStream of char codes
+    .filter(ch -> ch == target) // match the target character
+    .count();
+    System.out.println("Count of '" + target + "' = " + count);
+36. How to Reverse elements of a Parallel Stream in Java?
+    names.parallelStream()
+    .sorted(Comparator.reverseOrder())
+    .forEachOrdered(System.out::println);  // Keeps order during parallel processing
+37. find the frequency of each character in string
+    Map<Character, Long> freqMap = name.chars() // IntStream of chars
+            .mapToObj(c -> (char) c) // Convert int to Character
+            .collect(Collectors.groupingBy(
+                Function.identity(), // Group by the character itself
+                Collectors.counting() // Count occurrences
+            ));
+
+        System.out.println(freqMap);  
+38. Program to Find the Maximum Number and Minimum Number in a Listint
+    int max = nums.stream().reduce(Integer::max).orElse(Integer.MIN_VALUE);
+        int min = nums.stream().reduce(Integer::min).orElse(Integer.MAX_VALUE);
+39. 
+
+
+
+
+
+
+
 
 
 
