@@ -1,1 +1,160 @@
 1 Print all elements in a list
+  names.stream().forEach(System.out::println);
+2.Convert a list of strings to uppercase
+  names.stream().map(name::toUpperCase).forEach(System.out::println)
+3. Count the number of elements in a list
+   long count = names.stream().count();
+   System.out.println(count);
+4. Filter names that start with "S"
+   names.stream().filter(name->name.startWith("s")).forEach(System.out::println)
+5. Get length of each string in a list
+   names.stream()
+     .map(String::length)
+     .forEach(System.out::println);
+6. Remove duplicate elements from a list
+    List<Integer> unique = nums.stream()
+    .distinct()
+    .collect(Collectors.toList());
+System.out.println(unique);
+7. Find duplicate elements in a list
+  Set<Integer> seen=new HashSet<>
+  Set<Integer> duplicates=names.stream().filter(n->!seen.add(n)).collect(Collectors.toSet());
+8. Count how many times each element appears in a list
+   Map<Integer, Long> counts = nums.stream()
+    .collect(Collectors.groupingBy(
+        Function.identity(),
+        Collectors.counting()
+    ));
+
+System.out.println(counts);
+9. Find elements that appear more than once
+   List<Integer> duplicates = nums.stream()
+    .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+    .entrySet()
+    .stream()
+    .filter(e -> e.getValue() > 1)
+    .map(Map.Entry::getKey)
+    .collect(Collectors.toList());
+
+System.out.println("Elements appearing more than once: " + duplicates);
+10. Sort strings alphabetically
+   names.stream()
+     .sorted()
+     .forEach(System.out::println);
+11. Sort numbers in descending order
+    nums.stream()
+    .sorted(Comparator.reverseOrder())
+    .forEach(System.out::println);
+12. Sort a list of objects by a field (e.g., name or age)
+   Sort by age ascending:
+   people.stream()
+      .sorted(Comparator.comparing(Person::getAge))
+      .forEach(p -> System.out.println(p.getName() + " - " + p.getAge()));
+   Sort by name descending
+   people.stream()
+      .sorted(Comparator.comparing(Person::getName).reversed())
+      .forEach(p -> System.out.println(p.getName()));
+13. Get top 3 highest numbers
+   nums.stream()
+    .sorted(Comparator.reverseOrder())
+    .limit(3)
+    .forEach(System.out::println);
+14. Get the longest string from a list
+   Optional<String> longest = names.stream()
+    .reduce((s1, s2) -> s1.length() > s2.length() ? s1 : s2);
+
+longest.ifPresent(System.out::println);
+   using max:
+  Optional<String> longest = names.stream()
+    .max(Comparator.comparing(String::length));
+
+longest.ifPresent(System.out::println);
+comprator and comparable 
+You have a class like:
+
+class Person {
+    String name;
+    int age;
+
+    // constructor, getters
+}
+
+
+Now you want to sort people by age or by name, right?
+
+But Java doesn't know how to sort Person objects by default — because they’re custom.
+
+So Java gives you two ways to define sorting logic:
+
+✅ 1. Comparable – "I’ll compare myself"
+
+This is used inside the class.
+The class itself says: “Here’s how I should be sorted.”
+
+🧩 Example:
+class Person implements Comparable<Person> {
+    String name;
+    int age;
+
+    // Constructor, getters
+
+    @Override
+    public int compareTo(Person other) {
+        return Integer.compare(this.age, other.age);  // sort by age
+    }
+}
+
+
+Now you can do:
+
+Collections.sort(people);  // Uses compareTo()
+
+
+🔹 Use Comparable when there's one natural sorting rule.
+
+✅ 2. Comparator – "Sort me from outside"
+
+This is used outside the class. You say:
+
+“I want to sort Person objects by name or age or salary — whatever I want!”
+
+🧩 Example:
+people.stream()
+      .sorted(Comparator.comparing(Person::getAge))
+      .forEach(p -> System.out.println(p.getName() + " - " + p.getAge()));
+
+
+Here’s what happens:
+
+Comparator.comparing(Person::getAge) means:
+→ compare people by their age
+
+It generates a comparator object behind the scenes
+
+sorted(...) uses that comparator to order the stream
+
+🔁 Comparator vs Comparable – Analogy
+Concept	Analogy	Meaning
+Comparable	Person says “compare me by age”	Fixed sorting (inside class)
+Comparator	You say “compare these by name”	Flexible sorting (outside class)
+
+15. Find sum of numbers using reduce
+    nums.stream().reduce(0, (a, b) -> a + b);
+            or 
+    nums.stream().mapToInt(Integer::intValue).sum(); // shortcut
+16. Find product of even numbers using reduce
+    nums.stream().filter(n -> n % 2 == 0).reduce(1, (a, b) -> a * b);
+17. Find the maximum and minimum number using reduce
+    int max = nums.stream().reduce(Integer.MIN_VALUE, Integer::max);
+int min = nums.stream().reduce(Integer.MAX_VALUE, Integer::min);
+18. Count number of even and odd elements
+     Map<Boolean, Long> count = nums.stream()
+    .collect(Collectors.partitioningBy(n -> n % 2 == 0, Collectors.counting()));
+
+System.out.println("Even: " + count.get(true));
+System.out.println("Odd: " + count.get(false));
+19. Concatenate all strings in a list
+    String result = words.stream().reduce("", (a, b) -> a + b);
+System.out.println(result);  // HelloSreejaJava8
+20. 
+   
