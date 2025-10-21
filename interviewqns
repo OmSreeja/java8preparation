@@ -1,0 +1,11 @@
+1) how hashmap internally works?
+  hashmap internally calucaltes the hashcode of key, then the bucket index based on bucket index it will store that value
+  if it returns same hashcode, equals() came into picture, if both keys are same it will override, if not it adds the new value
+  if the list size is more than 8, it converts linked list to redblacktree
+  forex: map.put(1,"sree")
+         map.put(1,"mouni")
+as the key is same for both, same hashcode, initial it stores values 1, sree.. now equals check whether the key is same or not 
+when we want to add 1, mouni as it same override sree with mouni
+2) what happens when we override equals but not hashcode or vice-versa?
+   may be a chance of duplicates. consider the same above example, if I dont override hashcode it will retun diff hashes
+   so it may stored at 2 diff places , with the same key we may have duplicate values
