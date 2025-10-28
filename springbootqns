@@ -1,1 +1,281 @@
+SPRING BOOT INTERVIEW MASTER ROADMAP (Deep + Practical)
+🔹 1️⃣ Spring Boot Basics & Architecture
 
+Core Concepts:
+
+What is Spring Boot? How it differs from Spring Framework
+
+Advantages of Spring Boot (Auto-Configuration, Embedded Servers, No XML, Starter POMs)
+
+Spring Boot Architecture — explain from main() → DispatcherServlet → Controllers → Beans → Response
+
+How Spring Boot initializes ApplicationContext
+
+Role of @SpringBootApplication (and the 3 annotations inside it)
+
+Interview-Level Qns:
+
+What happens when you run a Spring Boot app?
+
+What’s the difference between Spring vs Spring Boot?
+
+Explain how auto-configuration works internally.
+
+What is Spring Boot Starter? Give some examples.
+
+What is SpringApplication.run()?
+
+🔹 2️⃣ Dependency Injection & Bean Management
+
+Key Topics:
+
+@Component, @Controller, @Service, @Repository
+
+@Autowired, @Qualifier, @Primary
+
+Constructor vs Setter injection
+
+@Bean and @Configuration
+
+@Lazy, @Scope (singleton, prototype)
+
+Bean Lifecycle → @PostConstruct, @PreDestroy
+
+Deep Understanding:
+
+What is a Bean? How does Spring manage it?
+
+When is @PostConstruct called? When is @PreDestroy triggered?
+
+What’s the difference between BeanFactory and ApplicationContext?
+
+What happens if multiple beans of same type exist?
+
+Practical Scenario:
+
+NoSuchBeanDefinitionException, NoUniqueBeanDefinitionException → causes & solutions.
+
+🔹 3️⃣ Auto-Configuration (Core of Spring Boot Magic)
+
+Core Concepts:
+
+How Spring Boot auto-configuration works internally.
+
+@EnableAutoConfiguration, @ConditionalOnClass, @ConditionalOnProperty
+
+Role of spring.factories and META-INF/spring-autoconfigure-metadata.properties
+
+How to override auto-configured beans.
+
+Interview Qns:
+
+How does auto-configuration know what to configure?
+
+How to disable an auto-configuration?
+
+How to see which configurations are active? (--debug flag)
+
+🔹 4️⃣ Profiles & Configurations
+
+Topics:
+
+application.properties vs application.yml
+
+@Value, @ConfigurationProperties, environment variables
+
+@Profile for environment-specific configs (dev, test, prod)
+
+Interview Qns:
+
+How do you manage multiple environments?
+
+Difference between @Value and @ConfigurationProperties
+
+How to switch profiles at runtime?
+
+🔹 5️⃣ Spring Boot with Database (JPA & JDBC)
+
+Topics:
+
+Spring Data JPA overview
+
+@Entity, @Table, @Id, @GeneratedValue
+
+Repositories: JpaRepository, CrudRepository
+
+@Query (JPQL, Native Query)
+
+Pagination and Sorting
+
+Transactions: @Transactional
+
+Lazy vs Eager loading
+
+Datasource configuration
+
+Database migration tools (Flyway, Liquibase)
+
+Interview Qns:
+
+What is the difference between Hibernate and JPA?
+
+How does Spring Data JPA simplify CRUD operations?
+
+How does @Transactional work internally?
+
+What’s the default transaction propagation behavior?
+
+Difference between save() and saveAndFlush()?
+
+🔹 6️⃣ Exception Handling
+
+Topics:
+
+@ControllerAdvice
+
+@ExceptionHandler
+
+ResponseEntityExceptionHandler
+
+Custom exceptions & global error response
+
+Interview Qns:
+
+How to handle global exceptions in Spring Boot?
+
+What’s the difference between checked & unchecked exceptions in controller?
+
+🔹 7️⃣ REST API Development
+
+Topics:
+
+@RestController, @RequestMapping, @GetMapping, @PostMapping
+
+RequestBody vs RequestParam vs PathVariable
+
+ResponseEntity usage
+
+Validation → @Valid, @NotNull, @Email, @Pattern
+
+JSON Serialization/Deserialization using Jackson
+
+Interview Qns:
+
+What’s difference between @Controller and @RestController?
+
+How does Spring Boot convert JSON to object internally?
+
+How do you validate request payloads?
+
+🔹 8️⃣ Spring Boot Testing
+
+Topics:
+
+@SpringBootTest, @WebMvcTest
+
+MockMvc for controller testing
+
+Mockito and @MockBean usage
+
+Unit vs Integration tests
+
+Interview Qns:
+
+How to test REST controllers in Spring Boot?
+
+What’s the difference between @Mock and @MockBean?
+
+🔹 9️⃣ Actuator & Monitoring
+
+Topics:
+
+Actuator Endpoints (/actuator/health, /metrics, /env)
+
+Custom endpoints
+
+Securing Actuator endpoints
+
+Interview Qns:
+
+What is Spring Boot Actuator used for?
+
+How to expose only specific actuator endpoints?
+
+🔹 🔟 Spring Boot Security (Basic + JWT)
+
+Topics:
+
+Spring Security filters & Authentication flow
+
+@EnableWebSecurity
+
+Basic Authentication vs JWT
+
+Custom UserDetailsService
+
+PasswordEncoder
+
+Security configuration (Spring Security 6)
+
+Interview Qns:
+
+How does Spring Security work internally?
+
+What’s the role of SecurityFilterChain?
+
+How to implement JWT authentication in Spring Boot?
+
+🔹 1️⃣1️⃣ Advanced Concepts
+
+Topics:
+
+AOP (Aspect-Oriented Programming): @Aspect, @Before, @AfterReturning, @Around
+
+Scheduler: @EnableScheduling, @Scheduled
+
+Caching: @EnableCaching, @Cacheable, @CacheEvict
+
+File Upload/Download
+
+DevTools, Logging, Profiles
+
+Interview Qns:
+
+What is AOP? How is it used in Spring Boot?
+
+What is pointcut and joinpoint?
+
+What is the difference between @Cacheable and @CacheEvict?
+
+🔹 1️⃣2️⃣ Microservices & Integration
+
+Topics:
+
+REST communication between services
+
+Feign Client / RestTemplate / WebClient
+
+Centralized Configuration (Spring Cloud Config)
+
+Service Discovery (Eureka)
+
+Circuit Breaker (Resilience4j)
+
+Distributed Tracing (Sleuth, Zipkin)
+
+Messaging (Kafka / RabbitMQ / IBM MQ integration)
+
+Interview Qns:
+
+How do services communicate in microservices?
+
+How to secure service-to-service calls?
+
+How to handle failure using circuit breaker pattern?
+
+🧠 Preparation Strategy
+
+✅ Week 1: Core Boot + Bean lifecycle + Autoconfig + Profiles
+✅ Week 2: JPA + Transactions + REST + Exception Handling
+✅ Week 3: Security + JWT + Testing + Actuator
+✅ Week 4: AOP + Microservices + Advanced
