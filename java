@@ -10,7 +10,8 @@ Ploymorphism: Polymorphism allows one interface or parent reference to represent
 Compile-time Polymorphism: “Method overloading – same method name with different parameters, resolved at compile time.”
 Runtime Polymorphism (VERY IMPORTANT): “Method overriding – same method signature in parent and child classes. JVM decides the method execution at runtime based on object type.”
 
-Abstraction: “Abstract class can have both abstract and implemented methods, so it provides partial abstraction.”
+Abstraction: Abstraction hides implementation details and exposes only essential behavior.
+  “Abstract class can have both abstract and implemented methods, so it provides partial abstraction.”
 ✔ Can have variables
 ✔ Single inheritance only
 
