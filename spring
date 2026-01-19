@@ -1,0 +1,64 @@
+before spring 
+Objects new keyword tho create cheyyali
+Tight coupling
+Testing impossible without full object graph
+Changing implementation = code change everywhere
+
+Spring solution (HOW)
+Spring IoC Container introduce chesindhi.
+“Spring takes control of object creation, dependency wiring, lifecycle management.”
+Internally em jaruguthundhi?
+Spring container startup avvagane:
+Classpath scan chesthundhi
+@Component unna classes identify chesthundhi
+Object create chesthundhi
+Dependencies inject chesthundhi
+Bean ready
+
+BEAN LIFECYCLE – INTERNAL FLOW (PFI LEVEL)
+❓ Bean lifecycle explain cheyyandi
+Ila cheppu 👇
+“When application starts, Spring creates beans, injects dependencies, initializes them, and manages them until shutdown.”
+🔍 Internally steps:
+Bean instantiation
+Dependency injection
+@PostConstruct
+Bean ready
+@PreDestroy (shutdown time)
+
+@SpringBootApplication – DEEP (NOT BASIC)
+❓ What happens when main method runs?
+SpringApplication.run(App.class, args);
+🔍 Internally:
+Create ApplicationContext
+Load environment
+Scan components
+Apply auto-configurations
+Start embedded server (Tomcat)
+
+@SpringBootApplication breakdown
+It combines:
+@Configuration → Java-based config
+@ComponentScan → scans beans
+@EnableAutoConfiguration → magic happens here
+5️⃣ AUTO-CONFIGURATION – REAL DEPTH 🔥🔥
+❓ How Spring Boot auto-config works internally?
+Ila cheppu 👇
+“Spring Boot checks classpath dependencies and configuration properties, then conditionally creates beans.”
+
+Important annotations:
+@ConditionalOnClass
+@ConditionalOnProperty
+@ConditionalOnMissingBean
+🔥 Impressive line:
+“Spring Boot creates beans only if we haven’t defined our own.”
+
+TRANSACTIONS – DEEP (Accenture loves this)
+❓ How @Transactional works internally?
+IMPORTANT 🔥
+“Spring creates a proxy around the bean. Method call goes through proxy which starts and commits or rolls back transaction.”
+🔥 Why runtime exception rollback?
+Because Spring marks transaction rollback-only
+❓ Why checked exception not rollback?
+Assumed recoverable
+Can override using rollbackFor
