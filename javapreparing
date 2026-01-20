@@ -1,0 +1,249 @@
+zcomputer - 010 ni ardamchesukuntadhi
+so manam rasina language ni system ardam chesukovali ante we need compiler/interpreter
+why we need both..?
+--. compiler anedhi rasina code ni motham vakesari machine understandable lang lo convert chesthadhi
+-- interpreter anedhi line by line convert chesthadhi
+speed anedhi compiler ne yekkuva
+java anedhi both compiler & interpreter lang adhe python ayithe interpreter lang(python is slow)
+
+why only java..?
+java anedhi almost 27years nunchi vundhi (ante trustable)
+-->large community across world wide (ante em ayina issue vachina ah issue someone might face and their will be solution for that)
+--> libraries and framework(springboot)  (ante already half code build ayyi vuntadhi, no need to start from scratch)
+-->** backward compatability (ante for ex py2 tisukunte dhantlo rasina code py3 lo work avvadhu adhe java lo ayithe java1 lo rasina code kuda 
+    java20 lo work avvudhi)-- main imp
+
+features--
+java anedhi platform independent (ante nvu windows lo rasina code, mac Linux lo kuda work avvudhi)
+-> but how?
+vaka program rasaka adhi compile chesaka(javac helloworld.java) adhi .class file create chesthundhi
+--> ee . class file not a highlevel/machine level language edhi intermediatecode/byte code, edhi ye platform midha ayina work avvudhi
+2) objectoriented-- java lo anni classes and objects ne vuntay
+3)memorymanagement-- manam yenno objects create chesthu vuntam code rasetappdu, unused vi anni clean cheyyali ante manaki kastam ,ikkada java anedhi
+  garbagecollection dwara edhe memory clean chesthundhi
+4) strongly typed -- ante nvu vaka dhanini define cheyyali anukunte adhi nvu mundhe declare cheyyali ex: int a=100; so compile time lo ne java ki telusthadhi
+  edhi int type. adhe python lo ayithe a=100; anni rayochu edhi runtime lo ye type anedhi telusukuntadhi so python is slow
+5) multithreaded : vake time lo diff methods ni execute cheyyagaladhu
+
+imp****
+manam yedhi rasina java lo adhi class lo inside main method lo rayali.
+but main method rayakunda vunte compile avvuthundha..?
+public class HelloWorld{}
+javac HelloWorld.java---> yes, compile avvuthundhi but run chesinapudu(java HelloWorld) error vasthundhi
+
+
+how java is both compiler & interpreter lan?
+.class anedhi compiler create chesthadhi i.e byte code edhi machine understandable lang kadhu so ah .class ni intrepeter machine level lang lo ki
+convert chesthadhi. Ikkada interpreter ante JVM
+
+what is JDK,JRE AND JVM?
+jdk anedhi jre + dev tools like javac , Javadocs consists ayyi vuntay
+jre anedhi jvm+some runtime inbuilt lib consists ayyi vuntay
+** but here what is jvm and how it works?
+jvm anedhi few steps vuntay
+
+1st one --> classloader --> .class file anedhanini tisukoni anni analyse chesi memory area lo ki load chesthadhi based on the data
+2nd memory area--> ikkada manaki method area, heap area, stack area, pc registers, native method evi vuntay
+-- method area lo only static data store chesthadhi
+-- ** heap area lo instance data store chesthadhi -- main imp (objects are stored in heap area)-- instance data is objects
+-- method lo rase local variables stack area lo store avvuthay (for ex: add method lo a=10, b =20, vunte a, b anevi stack area lo store chesukuntadhi)
+-- pc registers ante ye instruction tarvtha ye instruction run avvali anedhi vuntadhi . ante add method, 1st do a=10, next b=20, then do a+b all these instructions what we have written in our method will store.
+    java anedhi multithreaded porgrammining lan, prathi thread ki data vuntundhi dhanini thread stack antam adhi kuda stack area lo store avvudhi
+-- native method ante vere lang lo rasina dhanini  ikkada execute chethe adhi native method lo ki velthunndhi (like c,c++ rasina vatini java lo execute chesthe)
+3rd execution engine --> ikkada intrepeter, JIT compiler, garbage collection vuntay 
+here after all above steps the intrepeter convert the bytecode to machine understandable code
+-- jit compiler anedhi endhukante execution speed increase cheyyadaniki ante same multiple times execute ayithe dhanini ikkada jit compiler execute
+   it is not mandatory to use
+--- garbage collection anedhi manam use cheyyakunda create chesi vadhilesina objects ni clean up chesthadhi
+4th and we also have native method interface and native lib for exceution of another lang code
+
+
+                          JVM
+                           |
+                    Class loader also called classloadsubsystem(CLSS)
+                           |
+                           | jvm  memory area
+  method area      heap area        stack area     pcregisters     native methods
+                                              |
+					      | execution engine
+  interpreter  jit compiler garbage collection      native method interface      native method lib
+
+
+developer needs jdk , client needs only jre because he will not develop anything
+--------------------------------------------
+
+java lo yedhi ayina 1st we need to have class
+class(template) ante like plan --> class create chesina antha matrana memory em create avvadhu
+object like building --> java lo yedhi ayina manam objects tho ne chestham
+
+public static void main(String[] args)
+
+public ---> can access to anyone
+execution anedhi main method nunchi start avvudhi
+--manaki methods/variables anevi static/non-static(intsnace) vuntay
+static anevi class load avvuthunnapude load avvuthay(jvm lo classloader), it doesn't require any object
+so manam ikkada main method ni static ani declare chestham because if we dont declare main method as static
+we need to create object to call the main method but execution anedhi main method nunche start avvvudhi appudu
+object yela create avvvudhi so deadlock situation araise avvudhi
+--instance method we need objects for this , vakavela object lekapothe instance methods ki asalu life ne vundadhu
+--jvm anedhi 1st main method ni vethukoni akkada nunchi execution start avvudhi
+
+** can we have overloaded methods for main method?
+psvm(string[] args), psvm(int[] args) , yes we can have but jvm anedhi psvm(string[] args ne execute chesthadhi)
+---psvm(int[] args) ee method execute cheyyali ante, in the psvm(string[] args){main();} manam call cheyyali
+-- void main method ki return type em vundadhu
+-- main it is the name of the main method
+
+
+         Datatypes
+Identifiers: it should be unique ,classes ki varaibles ki objects ki manam eche names
+java lo primitive and non-primitive datatypes vunnay
+primitive lo total 8 vunnay
+numeric      char               Boolean
+numeric lo malli 
+byte - 1byte, short - 2bytes, int - 2bytes, float - 4bytes,long - 8bytes, doble - 8 bytes
+char - 2 bytes, Boolean (true/false)- 1byte float f=0.2f; float ani compiler cheppadaniki f ani estham ledhante double type lo tisukuntadhi
+char anedhi single character String anedhi grp of characters.
+**String anedhi endhuku class not a datatype?
+String lo manaki chala features lo vunnay so edhi class adhe byte int evi tisukunte vitiki em features em lev, its just datatype
+java anedhi not a 100% object-oriented because ikkada primitive datatypes use chesthunam evi objects kadhu
+-- prathi datatype ki wrapper class vunnay avi Byte,Short,Int,Float ila vitiki konni features vuntay.
+--** same identifier tho diff datatypes ni evvocha ante like char c='a', int c=10; not we would get an error
+
+    Scanner
+-- runtime lo data  evvadaniki scanner class use chestham.
+--Scanner sc-new Scanner(System.in);
+--- dhintlo konni methods data ni tisukovadaniki for ex int ki 
+   int a=sc.nextInt(), float f=sc.nextfloat
+--*but char ki char c=sc.nextLine().charAT(0); ikkada nextline anedhi group of characters , ah groupof characters lo ye character kavali anedhi charAt 
+   lo index estham.
+--** String data ayithe either we can give like String s=sc.next(); String s1=sc.nextLine(); in both ways it accepts the data
+
+
+          control statements
+-- we have control statemnets to control the flow
+--if,else,nesed if-else,ifels-if ladder
+           looping statements
+-- yedhi ayina statemnts ni multiple times execute cheyyali ante then we will go for loop statements
+--for, while, do-while,for-each
+-- looping statements syntax enti ante
+--initialize the index, condiational statemnets, update the index
+--** diff between while and do-while?
+    while anedhi entry control endhukante, while loop loki velthunappude condition check chesthundhi
+    them min execution for while loop is 0 because if condition fail ayithe while loop Lodhi execute avvadhu
+    do-while anedhi exit control ,ikkada the min execution for dowhile is 1 ,because in do-while atleast vakasari ayina 
+    statement execute avvuthundhi tarvtha condition check chesthundhi
+--**sum of numbers using ternary operator?
+    123--> 1+2+3
+   logic --> n%9==0?9:n%9
+   ye number ayina vakavela 9 tho divide ayithe dhani sum 9 avvuthundhi, vakavela divide avvakapothe dhani sum ,num%9 avvuthundhi
+-- we have break and continue statemnets, break anedhi execution stop chesi loop nunchi bayatiki vachesthadhi , adhe continue ayithe 
+   aa particular execution ni skip chesi continue chesthadhi
+--*prime number checking, prime number ante dhaniki 1, and same number factor ayithe dhanini prime antaru ante 2 tisukunte dhaniki 1,2 matrame factors
+   n=sc.nextInt();
+   factorCount=0;
+   for(i=2;i<n;i++)
+   {
+      if(n%i==0)
+        factorCount++;
+   }
+   if(factorCount==2)
+     s.o.p("primenumber");
+   else
+    s.o.p("not prime");
+--same dhinine manam sqrt(n) varake check chesi kuda rayochu
+   for(i=2;i<Math.sqrt(n);i++)
+---**default ga import aye package entii ante java lo-- java.lang.*;
+--forEach loop -- edhi manam dhenilo ayina data retrieve cheyyali ante one by one then will go for foreach
+   ikkada manam initialization,condition,iteration em rayam. just vaka variable and then iterate ayye array
+   for(int a:array)
+--Arrays
+   arrays anevi collection of indexed of homogeneous elements
+   manam array ni int a[],int[] a, int []a ila declare chesukovachu but int[] a ila yekkuva represent chestham
+   homogenous data tappa heterogeneous data ni store cheyyalem dhini kosam manam collections lo arraylist vundhi adhi yekkuva use chestham
+--var-args: for ex nvu addition of two array numbers chedam anukunnav
+   add(int[] a,int[] b) eppudu addition of 3 array numbers cheyyali ante add(int[] a,int[] b,int[] c) ila prathisari manam add cheyyali 
+   adhe var args ante add(int... a)-> ila declare chesthe Yenni ayina tisukuntadhi
+--public static void main(String[] args)--> ikkada args anedhi identifier yedhi ayina pettukovachu args place lo a ani ila
+  edhi cmd line arg -- application run chesinappudu ->run configuration click chesi manam elements evvochu
+  like run configuration click chesi Hi Hello Howru ani args[0] print chesthe Hi ani print avvuthadhi
+  ikkada manam string[] lo string... ani kuda evvochu manaki ye error radhu
+
+
+                        variables
+ manaki local, static, non-static(instance) 3 types vuntay
+ local variables anevi stack area lo store avvuthay
+ yedhi ayina method/block lo create chesthe avi local variable ante m1 ane method create cheste nvu
+ m1(){int a=100,int b=200;} evi local varibles. dhini scope ah method varake
+ local varaibles ki manam ye access modifiers evvakudadhu except final
+ outside the method u cant access those variables
+ vitiki default vlues em vundavu
+ lcal variable anevi method or code block excecute avvuthunappudu create avvuthay, method execution ayyipovagane destroy avvuthay
+                  instance variables 
+ instance variables anevi outside the method or constructor or any block
+ vitini access cheyyali ante manam through object dwara ne cheyyagalam
+ instance ante objects
+ class Name{
+   String name;
+  psvm(String args[]){
+  Name n=new Name();
+  s.o.p(n.Name);}
+ --ye access modifier ayina evvochu
+ -- evi heap area lo store avvuthay
+ --evi like global varaibles but only through object thone access cheyyagalam
+ instance variables ki default values vuntay
+--these variables can be set in multiple ways
+  1) declare chesinappudu(int a=100;)
+  2) through constructor
+ 3) through getters and setters
+ 4)through object reference(obj.a=100;)
+
+
+
+imp***
+static variable anevi method area lo store avvuthay
+-- evi class load avvuthunnapude load avvuthay
+-- ye access modifier ayina evvochu
+--vitini manam class name tho access chestham
+--static variables are not constant everyone telling like static variable are constants but its not true
+--constants varible ki static estham manam
+--ante for ex: company name tisukunte adhi employee andhariki same
+-- so company name anedhi constant dhiniki manam static ane keyword assign chestham
+-- static variables ki memory vakasare allocate avvudhi
+--instance variables ki ayithe object create chesina prathi sari allocate avvuthadhi memory
+   for ex:
+  class Employee{
+    int id;
+    String name;
+   Static String companyName=Mphasis;
+   psvm(String[] args){
+     Employee e=new Employee();
+     e.id=5
+     e.name="sree";
+    s.o.p(e.id+" "+e.name+" "+e.companyName);--->5, sree, Mphasis
+    Employee e1=new Employee();
+    e1.id=1;
+    e1.name="mouni";
+    s.o.p(e1.id+" "+e1.name+" "+e1.companyName);--->1, mouni,Mphasis
+
+    eppudu nenu e1.companyName="TCS" ani change chesthe , change avvutadhi
+   s.o.p(e.companyNmae+" "+e1.companyName)---->tcs tcs ani print avvuthay
+   ante static ani echina change avvuthay which means static variables are not constant
+   but manam value change avvakunda vundali ante em cheyyali
+   dhaniki static final companyNmae="Mphasis" appudu value change avvadhu
+  -- ikkada whats the use of static i.e memory allocating only one time
+***Test t=new Test();  --> ikkada new Test() anedhi heap lo store avvuthadhi, t anedhi ref variable edhi stack lo store avvuthadhi
+
+                 Constructor
+Constructor anedhi variables ni initialize cheyyadaniki use chestham
+same as class name vundali, return type(int,void, string...) emi vundadhu
+object create chesinappude default ga compiler anedhi vaka constructor ni create chesthadhi ,manam create cheyyakapoyina
+class Test{
+psvm(string args[]){
+   int a,int b;
+   Test t=new Test(10,20);
+}
+}
+ikkada a value 10,b value 20, through constructor dwara values initialize ayyay
+
+     
