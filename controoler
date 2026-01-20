@@ -1,0 +1,344 @@
+package com.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.CustomExceptionHandling.BusinessException;
+import com.CustomExceptionHandling.ControllerException;
+import com.entity.Account;
+import com.service.AccountService;
+import com.service.AccountServiceInterface;
+
+@RestController
+public class AccountController {
+	@Autowired
+	AccountServiceInterface accountServiceInterface;
+	@GetMapping("/getactdetails/{actnb}")
+	public ResponseEntity<?> getDetails(@PathVariable("actnb")String actnb){
+//		try {
+		Account account=accountServiceInterface.getAct(actnb);
+		return new ResponseEntity<>(account,HttpStatus.OK);
+//		}
+//		catch (BusinessException e) {
+//			ControllerException ce=new  ControllerException(e.getErrorCode(), e.getErrormsg());
+//			return new ResponseEntity<ControllerException>(ce,HttpStatus.BAD_REQUEST);
+//		}catch(Exception e) {
+//			ControllerException ce=new  ControllerException("613", "something went wrong in controller");
+//			return new ResponseEntity<ControllerException>(ce,HttpStatus.BAD_REQUEST);
+//			
+//		}
+		}
+	@GetMapping("/")
+	public ResponseEntity<?> getAllDetails(){
+		try {
+		List<Account> account=accountServiceInterface.getAllAct();
+		return new ResponseEntity<List<Account>>(account,HttpStatus.OK);
+		}catch (BusinessException e) {
+			ControllerException ce=new  ControllerException(e.getErrorCode(), e.getErrormsg());
+			return new ResponseEntity<ControllerException>(ce,HttpStatus.BAD_REQUEST);
+		}catch(Exception e) {
+			ControllerException ce=new  ControllerException("612", "something went wrong in controller");
+			return new ResponseEntity<ControllerException>(ce,HttpStatus.BAD_REQUEST);
+			
+		}
+	}
+	@PostMapping("/createaccount")
+	public ResponseEntity<?> saveact(@RequestBody Account account){
+//		try {
+		Account acct=accountServiceInterface.saveAct(account);
+		return new ResponseEntity<>(acct,HttpStatus.CREATED);
+//		}
+//		catch (BusinessException e) {
+//			ControllerException ce=new  ControllerException(e.getErrorCode(), e.getErrormsg());
+//			return new ResponseEntity<ControllerException>(ce,HttpStatus.BAD_REQUEST);
+//		}catch(Exception e) {
+//			ControllerException ce=new  ControllerException("611", "something went wrong in controller");
+//			return new ResponseEntity<ControllerException>(ce,HttpStatus.BAD_REQUEST);
+//		}
+	}
+	@PutMapping("/updateact")
+	public ResponseEntity<?> updateact(@RequestBody Account account){
+		Account acct=accountServiceInterface.updateAct(account);
+		return new ResponseEntity<>(acct,HttpStatus.CREATED);
+	}
+	@DeleteMapping("/deleteaccount/{actnb}")
+	public ResponseEntity<Void> deleteAct(@PathVariable("actnb") String actnb) {
+		accountServiceInterface.deleteAct(actnb);
+		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);	}
+ 
+}
+
+
+package com.CustomExceptionHandling;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class BusinessException extends RuntimeException{
+         /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+		private String errorCode;
+         private String errormsg;
+		public String getErrorCode() {
+			return errorCode;
+		}
+		public void setErrorCode(String errorCode) {
+			this.errorCode = errorCode;
+		}
+		public String getErrormsg() {
+			return errormsg;
+		}
+		public void setErrormsg(String errormsg) {
+			this.errormsg = errormsg;
+		}
+		@Override
+		public String toString() {
+			return "BusinessException [errorCode=" + errorCode + ", errormsg=" + errormsg + "]";
+		}
+		public BusinessException(String errorCode, String errormsg) {
+			super();
+			this.errorCode = errorCode;
+			this.errormsg = errormsg;
+		}
+		public BusinessException() {
+			
+		}
+         
+         
+}
+
+
+package com.entity;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
+public class Account {
+	@Id
+	@Column(name="actnb")
+	private String actnb;
+	@Column(name="holdername")
+	private String holdername;
+	@Column(name="actstatus")
+	private String actstatus;
+	public String getActnb() {
+		return actnb;
+	}
+	public void setActnb(String actnb) {
+		this.actnb = actnb;
+	}
+	public String getHoldername() {
+		return holdername;
+	}
+	public void setHoldername(String holdername) {
+		this.holdername = holdername;
+	}
+	public String getActstatus() {
+		return actstatus;
+	}
+	public void setActstatus(String actstatus) {
+		this.actstatus = actstatus;
+	}
+	public Account() {
+	}
+	public Account(String actnb, String holdername, String actstatus) {
+		super();
+		this.actnb = actnb;
+		this.holdername = holdername;
+		this.actstatus = actstatus;
+	}
+	@Override
+	public String toString() {
+		return "Account [actnb=" + actnb + ", holdername=" + holdername + ", actstatus=" + actstatus + "]";
+	}
+	
+	
+
+}
+
+
+package com.GlobalExceptionHandling;
+
+//import java.net.http.HttpHeaders;
+
+import org.springframework.http.HttpHeaders; 
+import java.util.NoSuchElementException;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import com.CustomExceptionHandling.EmptyInputException;
+
+@ControllerAdvice
+public class MyControllerAdivce extends ResponseEntityExceptionHandler{
+	@ExceptionHandler(EmptyInputException.class)
+	public ResponseEntity<String> handleemprtyInput(EmptyInputException emptyInputException){
+		return new ResponseEntity<String>("input fields are empty",HttpStatus.BAD_REQUEST);
+	}
+	@ExceptionHandler(NoSuchElementException.class)
+	public ResponseEntity<String> handleNoSuchElemetException(NoSuchElementException noSuchElementException){
+		return new ResponseEntity<String>("no value present for actnb in db",HttpStatus.NOT_FOUND);
+	}
+	@Override
+	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(
+	        HttpRequestMethodNotSupportedException ex,
+	        HttpHeaders headers,
+	        HttpStatusCode status,
+	        WebRequest request) {
+	    
+	    return new ResponseEntity<>("Please change your HTTP method type", HttpStatus.METHOD_NOT_ALLOWED);
+	}        
+}
+
+
+package com.repo;
+
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import org.springframework.stereotype.Repository;
+
+import com.entity.Account;
+
+@Repository
+public interface AccountRepo extends JpaRepository<Account, String> {
+//  Optional<Account> findById(String actnb);
+}
+
+
+//package com.secuirty;
+//@EnablewebSecurity 
+//public class CustomSecurityConfig extends WebSecurityConfigureAdapter {
+//	@Override
+//	protected void configure(AuthenticationManagerBuilder auth) throws Exception{
+//		auth.inMemoryAuthentication()
+//		.withUser("user")
+//		.password("pass")
+//		.roles("USER");
+//	}
+//	@Bean
+//	public PasswordEncoder getPasswordEncoder() {
+//		return NoOpPasswordEncoder.getInstance();
+//	}
+//   @Override
+//Protected void configure(HttpSecurity http) throws Exception{
+//http.authorizeRequests().antMatchers(“/admin”).hasRole(“ADMIN”)
+//. antMatchers(“/user”).hasRole(“USER”)
+//. antMatchers(“/”).permitAll()
+//.and()
+//.formLogin();
+
+//
+//}
+
+
+package com.service;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+
+import javax.management.RuntimeErrorException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+
+import com.CustomExceptionHandling.BusinessException;
+import com.CustomExceptionHandling.EmptyInputException;
+import com.entity.Account;
+import com.repo.AccountRepo;
+
+@Service
+public class AccountService implements AccountServiceInterface {
+	@Autowired
+	AccountRepo accountRepo;
+
+	public Account saveAct(Account account) {
+
+		if (account.getHoldername().isBlank() || account.getHoldername().length() == 0) {
+			throw new EmptyInputException("601", "please sent holdername , it is blank");
+		}
+		return accountRepo.save(account);
+//		try {
+//			return accountRepo.save(account);
+//		} catch (IllegalArgumentException e) {
+//			throw new BusinessException("602", "given act is null " + e.getMessage());
+//		} catch (Exception e) {
+//			throw new BusinessException("603", "something went wrong in service layer" + e.getMessage());
+//		}
+	}
+
+	@CachePut(value = "cacheaccount", key = "#actnb")
+	public Account getAct(String actnb) {
+//		try {
+			System.out.println("getting from db");
+			return accountRepo.findById(actnb).get();
+//		} catch (IllegalArgumentException e) {
+//			throw new BusinessException("606", "given Employee is null, please send some id");
+//		} catch (NoSuchElementException e) {
+//			throw new BusinessException("607", "given act is doesnt exir");
+//		}
+
+	}
+
+	public List<Account> getAllAct() {
+		// TODO Auto-generated method stub
+		List<Account> actlist = null;
+		try {
+			actlist = accountRepo.findAll();
+		} catch (Exception e) {
+			throw new BusinessException("605", "soemthing went wrong while fetching all acts");
+		}
+		if (actlist.isEmpty()) {
+			throw new BusinessException("604", "list is empty");
+		}
+		return actlist;
+
+	}
+
+	public Account updateAct(Account account) {
+		// TODO Auto-generated method stub
+		if (accountRepo.findById(account.getActnb()).equals(null)) {
+			throw new NoSuchElementException();
+		} else {
+			return accountRepo.save(account);
+		}
+	}
+
+	@Override
+	public void deleteAct(String actnb) {
+		try {
+			accountRepo.deleteById(actnb);
+		} catch (IllegalArgumentException e) {
+			throw new BusinessException("608", "given act is null, please send some id");
+		} catch (NoSuchElementException e) {
+			throw new BusinessException("609", "given act is doesnt exir");
+		}
+
+	}
+
+}
