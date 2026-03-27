@@ -57,3 +57,9 @@ DispatcherServlet consults HandlerMapping to find the correct controller
 It calls the respective controller method
 Controller processes request and returns response
 DispatcherServlet sends response back to client
+
+--------dependency injection--------------
+Dependency Injection is a design pattern where Spring manages object creation and injects dependencies, reducing tight coupling.
+@Autowired is used to automatically inject dependencies by type from the Spring container.
+Internally, when the application starts, Spring creates the ApplicationContext, scans for components, creates beans, and injects dependencies wherever @Autowired is used.
+If multiple beans of the same type exist, we use @Qualifier to specify which one to inject.
