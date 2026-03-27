@@ -49,3 +49,11 @@ Spring Boot is built on top of the Spring Framework and simplifies application d
 The application starts with @SpringBootApplication, which is a combination of @Configuration, @EnableAutoConfiguration, and @ComponentScan.
 @Configuration is used to define beans, @EnableAutoConfiguration automatically configures beans based on classpath dependencies, and @ComponentScan scans the package and registers components as beans.
 It also provides embedded servers like Tomcat, so applications can run independently without external deployment.
+
+----dispatcher servlet---------
+Client sends HTTP request
+Request first goes to DispatcherServlet
+DispatcherServlet consults HandlerMapping to find the correct controller
+It calls the respective controller method
+Controller processes request and returns response
+DispatcherServlet sends response back to client
