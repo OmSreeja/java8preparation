@@ -30,3 +30,30 @@ public String fallback(Exception e) {
     <groupId>io.github.resilience4j</groupId>
     <artifactId>resilience4j-spring-boot2</artifactId>
 </dependency>
+
+---slueth and zipkin------
+Distributed tracing is used to track requests across multiple microservices. Tools like Sleuth generate trace IDs, 
+and Zipkin helps visualize the flow, making debugging and monitoring easier.
+
+---feignclient----
+Feign is a declarative REST client for calling other services in a microservices architecture.
+Instead of using RestTemplate or WebClient, you just define an interface.
+Spring automatically implements it.
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-openfeign</artifactId>
+</dependency>
+
+@FeignClient(name = "payment-service")
+public interface PaymentClient {
+    @GetMapping("/pay")
+    String pay();
+}
+
+@SpringBootApplication
+@EnableFeignClients
+public class OrderServiceApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(OrderServiceApplication.class, args);
+    }
+}
