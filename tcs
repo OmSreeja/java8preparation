@@ -43,3 +43,9 @@ memory leaks how to overcome..?
 Kafka itself does not usually cause memory leaks, but memory issues can arise due to improper producer or consumer configurations. For example, large message sizes, high batching, or slow consumers can lead to memory pressure.
 We can overcome this by tuning producer configurations like batch size and buffer memory, ensuring efficient consumer processing, and monitoring system performance.
 In our project, we use Avro for lightweight messages and Cassandra for persistence to avoid memory-related issues
+
+--------Springboot--------------
+Spring Boot is built on top of the Spring Framework and simplifies application development by providing default configurations. It follows an opinionated approach to reduce boilerplate code.
+The application starts with @SpringBootApplication, which is a combination of @Configuration, @EnableAutoConfiguration, and @ComponentScan.
+@Configuration is used to define beans, @EnableAutoConfiguration automatically configures beans based on classpath dependencies, and @ComponentScan scans the package and registers components as beans.
+It also provides embedded servers like Tomcat, so applications can run independently without external deployment.
