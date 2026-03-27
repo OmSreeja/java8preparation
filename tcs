@@ -1,0 +1,14 @@
+Kafka is a distributed event streaming platform that follows a publish-subscribe model. Producers send messages to topics, which are divided into partitions for scalability. Each partition has a leader and replicas for fault tolerance.
+Producers write data to the leader, and it replicates to followers. Based on acknowledgment configuration, Kafka confirms the write.
+Consumers read data from partitions using offsets, and within a consumer group, each partition is consumed by only one consumer to ensure parallel processing.
+In our project, we use Kafka to stream hold events captured via CDC, ensuring reliable and scalable communication between systems.
+
+Producer Kafka ki message send chesthundi
+Kafka topic lo store chesthundi
+Topic → partitions ga divide avthundi (parallel processing kosam)
+Each partition ki leader + replicas untayi
+Producer always leader partition ki write chesthundi
+Leader data ni replicas ki replicate chesthundi
+Once replication success (based on ACK config), Kafka confirms write
+Consumer group lo unna consumers partitions ni read chestharu
+Offset maintain chesi next message ekkada nundi read cheyalo decide chestharu
