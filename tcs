@@ -64,6 +64,8 @@ Dependency Injection is a design pattern where Spring manages object creation an
 Internally, when the application starts, Spring creates the ApplicationContext, scans for components, creates beans, and injects dependencies wherever @Autowired is used.
 If multiple beans of the same type exist, we use @Qualifier to specify which one to inject.
 
+---------------
+@Transactional ensures ACID properties and rolls back transactions on runtime exceptions. ddl-auto is used to control database schema generation. EntityManager is a core JPA interface used to manage entity operations. JPA is a specification, and Hibernate is its implementation.
 @Controller returns view names by default, whereas @ResponseBody converts return values into HTTP response body. @RestController is a combination of both and is used for REST APIs.
 
 ----------annotations--------------
