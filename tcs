@@ -63,3 +63,5 @@ Dependency Injection is a design pattern where Spring manages object creation an
 @Autowired is used to automatically inject dependencies by type from the Spring container.
 Internally, when the application starts, Spring creates the ApplicationContext, scans for components, creates beans, and injects dependencies wherever @Autowired is used.
 If multiple beans of the same type exist, we use @Qualifier to specify which one to inject.
+
+@Controller returns view names by default, whereas @ResponseBody converts return values into HTTP response body. @RestController is a combination of both and is used for REST APIs.
