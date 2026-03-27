@@ -12,3 +12,29 @@ Leader data ni replicas ki replicate chesthundi
 Once replication success (based on ACK config), Kafka confirms write
 Consumer group lo unna consumers partitions ni read chestharu
 Offset maintain chesi next message ekkada nundi read cheyalo decide chestharu
+
+
+2. How Avro works (Step-by-step)
+
+We create an Avro schema file (.avsc) defining the fields
+Using Avro plugin, Java classes are generated at build time
+We use those generated classes to create event objects
+Kafka producer serializes the object into binary format
+Consumer deserializes using the same schema
+{
+  "type": "record",
+  "name": "HoldEvent",
+  "namespace": "com.example",
+  "fields": [
+    {"name": "accountId", "type": "string"},
+    {"name": "amount", "type": "double"},
+    {"name": "status", "type": "string"}
+  ]
+}
+spring:
+  kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+We configure serializer in YAML so that KafkaTemplate knows how to convert Java objects into a format that can be sent over Kafka.
+Since we use Avro, we use KafkaAvroSerializer to convert objects into binary format.
