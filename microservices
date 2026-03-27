@@ -1,1 +1,5 @@
 Microservices is an architectural style where an application is divided into small independent services, each responsible for a specific functionality. These services communicate via REST APIs or messaging systems like Kafka. It provides scalability, flexibility, and independent deployment.
+
+------api gateway-----------
+API Gateway acts as a single entry point for all client requests in a microservices architecture. It handles routing, authentication, load balancing, and logging, reducing complexity for clients and centralizing cross-cutting concerns
+Client sends request to API Gateway, which routes it to the appropriate service like Order or Payment. In some cases, services communicate directly with each other without going through the gateway. Authentication is handled using JWT, often integrated with OAuth for authorization. Different API Gateway implementations like Spring Cloud Gateway or Zuul can be used.
