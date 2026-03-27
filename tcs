@@ -65,3 +65,6 @@ Internally, when the application starts, Spring creates the ApplicationContext, 
 If multiple beans of the same type exist, we use @Qualifier to specify which one to inject.
 
 @Controller returns view names by default, whereas @ResponseBody converts return values into HTTP response body. @RestController is a combination of both and is used for REST APIs.
+
+----------annotations--------------
+@Component is a generic annotation used to define a Spring bean. @Service and @Repository are specialized forms of @Component used for business logic and data access layers respectively. @Repository also provides exception translation for database operations. All of them are detected during component scanning and registered as beans in the Spring container.
